@@ -1,0 +1,40 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+body {
+  padding-top: 56px;
+  padding-bottom:56px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+    padding-bottom:56px;
+  }
+}
+
+
+.footer{
+	width:100%;
+	position: fixed;
+    bottom: 0;	
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+.dropdown-item:hover{
+  display:block;
+}
