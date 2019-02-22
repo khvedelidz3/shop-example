@@ -12,9 +12,14 @@
     @endif
 
     <div class="container">
-
         <a type="button" class="btn btn-success" href="/admin/products/create" role="button">Create new
             product</a>
+
+        <form action="/admin/products" class="mt-3 mb-3">
+            @csrf
+                <input type="text" class="form-control col-3 d-inline" name="search" placeholder="Search by id or name">
+                <input type="submit" class="btn btn-primary mb-1" value="Search">
+        </form>
 
         <table class="table table-bordered">
             <thead>
@@ -32,7 +37,9 @@
             @foreach($products as $product)
                 <tr>
                     <th scope="row">{{$product->id}}</th>
-                    <th scope="row"><img src="{{asset('storage/'.floor($product->id/1000).'/'.$product->images->first()->id .'.' .$product->images->first()->ext)}}" alt="img" class="product-img"></th>
+                    <th scope="row"><img
+                                src="{{asset('storage/'.floor($product->id/1000).'/'.$product->images->first()->id .'.' .$product->images->first()->ext)}}"
+                                alt="img" class="product-img"></th>
                     <td>{{$product->name}}</td>
                     <td>{{$product->description}}</td>
                     <td>{{$product->price}}</td>

@@ -14,9 +14,29 @@ class OrdersController extends Controller
         if (!is_null(\request('filter'))) {
             $status = OrderStatus::query()->findOrFail(\request('filter'));
             $orders = $status->orders()->with(['status', 'user'])->paginate();
-        } else {
+        } elseif(is_null(\request('search'))) {
             $orders = Order::with(['status', 'user'])->paginate();
         }
+
+        if (!is_null(\request('search'))) {
+            $terms = explode(' ', \request('search'));
+            $columns = ['id', 'user_id'];
+
+            $query = null;
+
+            foreach ($terms as $term) {
+                foreach ($columns as $column) {
+                    if (is_null($query)) {
+                        $query = Order::where($column, 'LIKE', '%' . $term . '%');
+                    } else {
+                        $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                    }
+                }
+            }
+            $orders = $query->with(['status', 'user'])->paginate();
+        }
+
+
 
         $statuses = OrderStatus::all();
 

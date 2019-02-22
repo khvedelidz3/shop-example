@@ -13,16 +13,31 @@
     @endif
 
     <div class="container">
-        <form action="/admin/orders">
-            <label>Filter By Status</label>
-            <select name="filter" class="form-group form-control col-2 d-inline mt-2">
-                <option selected></option>
-                @foreach($statuses as $status)
-                    <option value="{{$status->id}}">{{$status->status_name}}</option>
-                @endforeach
-            </select>
-            <input type="submit" value="Get" class="btn btn-primary d-inline mt-0 mb-2">
-        </form>
+        <div class="row mt-3 mb-3">
+            <div class="col-4">
+                <form action="/admin/orders" method="get">
+                    @csrf
+                    <label>Filter By Status</label>
+                    <select name="filter" class="form-group form-control d-inline mt-2 col-6">
+                        <option selected></option>
+                        @foreach($statuses as $status)
+                            <option value="{{$status->id}}">{{$status->status_name}}</option>
+                        @endforeach
+                    </select>
+                    <input type="submit" value="Get" class="btn btn-primary d-inline mt-0 mb-2 col-2">
+                </form>
+            </div>
+
+            <div class="col-7">
+                <form action="/admin/orders" class="mt-3 mb-3 d-inline">
+                    @csrf
+                    <input type="text" class="form-control col-6 d-inline mt-2" name="search"
+                           placeholder="Search by order id or user id">
+                    <input type="submit" class="btn btn-primary mb-1 col-3 mt-0 mb-2" value="Search">
+                </form>
+            </div>
+
+        </div>
 
         <table class="table table-bordered">
             <thead>

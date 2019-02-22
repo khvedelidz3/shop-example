@@ -32,10 +32,6 @@ Route::prefix('admin')->group(function () {
         'uses' => 'cms\HomePageController@index',
     ]);
 
-    Route::get('/home', [
-        'uses' => 'cms\HomePageController@index',
-    ]);
-
     Route::get('/categories', [
         'uses' => 'cms\CategoryController@index',
     ]);

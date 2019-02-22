@@ -16,7 +16,25 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        $products = Product::with('categories')->paginate();
+        if (! is_null(\request('search'))) {
+            $terms = explode(' ', \request('search'));
+            $columns = ['id', 'name'];
+
+            $query = null;
+
+            foreach ($terms as $term) {
+                foreach ($columns as $column) {
+                    if (is_null($query)) {
+                        $query = Product::where($column, 'LIKE', '%' . $term . '%');
+                    } else {
+                        $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                    }
+                }
+            }
+            $products = $query->with('categories')->paginate();
+        } else {
+            $products = Product::with('categories')->paginate();
+        }
 
         return view('cms.products.index', compact('products'));
     }

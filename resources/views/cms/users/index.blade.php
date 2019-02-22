@@ -13,8 +13,15 @@
     @endif
 
     <div class="container">
+
         <a type="button" class="btn btn-success" href="/admin/users/create" role="button">Create new
             user</a>
+
+        <form action="/admin/users" class="mt-3 mb-3">
+            @csrf
+            <input type="text" class="form-control col-3 d-inline" name="search" placeholder="Search by id or email">
+            <input type="submit" class="btn btn-primary mb-1" value="Search">
+        </form>
 
         <table class="table table-bordered">
             <thead>

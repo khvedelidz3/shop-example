@@ -13,7 +13,26 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->paginate();
+        if (!is_null(\request('search'))) {
+            $terms = explode(' ', \request('search'));
+            $columns = ['id', 'email'];
+
+            $query = null;
+
+            foreach ($terms as $term) {
+                foreach ($columns as $column) {
+                    if (is_null($query)) {
+                        $query = User::where($column, 'LIKE', '%' . $term . '%');
+                    } else {
+                        $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                    }
+                }
+            }
+            $users = $query->with('roles')->paginate();
+        } else {
+            $users = User::with('roles')->paginate();
+        }
+
         return view('cms.users.index', [
             'users' => $users
         ]);
