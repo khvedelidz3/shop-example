@@ -109,10 +109,9 @@ class UsersController extends Controller
 
         if (count($user->roles()->get())) {
             if (Auth::attempt($credentials)) {
-                return redirect('admin/home');
+                return redirect('admin');
             }
         }
-//        dd('sda');
         return redirect()->back()->withErrors(['verificationError' => 'Email or password is incorrect']);
     }
 
