@@ -42,8 +42,13 @@ class CategoryController extends Controller
         return view('cms.category.create', compact('categories'));
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
+        $request->validate([
+            'categoryName' => 'required|unique:categories,name,' . $id,
+            'slugName'     => 'required|unique:categories,slug,' . $id,
+        ]);
+
         $category = Category::query()
             ->findOrFail($id)
             ->update([
@@ -55,8 +60,14 @@ class CategoryController extends Controller
         return redirect('/admin/categories');
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $request->validate([
+            'categoryName' => 'required|unique:categories,name',
+            'slugName'     => 'required|unique:categories,slug',
+        ]);
+
+
         Category::query()
             ->create([
                 'name'      => \request('categoryName'),

@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     @if($errors->has('permissionError'))
         <div class="alert alert-warning">
             <p class="text-center">{{$errors->first('permissionError')}}</p>
@@ -20,6 +21,9 @@
             <div class="form-group">
                 <label for="categoryName">Category name</label>
                 <input type="text" class="form-control" id="categoryName" value="{{$currentCategory->name}}" name="categoryName">
+                @if ($errors->has('categoryName'))
+                    <div class="text-danger">{{$errors->first('categoryName')}}</div>
+                @endif
             </div>
 
             <div class="form-group">
@@ -41,6 +45,9 @@
             <div class="form-group">
                 <label for="slug">Slug</label>
                 <input type="text" class="form-control" id="slug" value="{{$currentCategory->slug}}" name="slugName">
+                @if ($errors->has('slugName'))
+                    <div class="text-danger">{{$errors->first('slugName')}}</div>
+                @endif
             </div>
             <input type="submit" class="btn btn-primary" role="button" value="Save">
         </form>

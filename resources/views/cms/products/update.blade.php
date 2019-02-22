@@ -20,18 +20,27 @@
             <div class="form-group">
                 <label for="productName">Product name</label>
                 <input type="text" class="form-control" id="productName" name="productName" value="{{$product->name}}">
+                @if ($errors->has('productName'))
+                    <div class="text-danger">{{$errors->first('productName')}}</div>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="productDescription">Product description</label>
                 <input type="text" class="form-control" id="productDescription" name="productDescription"
                        value="{{$product->description}}">
+                @if ($errors->has('productDescription'))
+                    <div class="text-danger">{{$errors->first('productDescription')}}</div>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="productPrice">Product price</label>
                 <input type="text" class="form-control" id="productPrice" name="productPrice"
                        value="{{$product->price}}">
+                @if ($errors->has('productPrice'))
+                    <div class="text-danger">{{$errors->first('productPrice')}}</div>
+                @endif
             </div>
 
             @foreach($product->images as $image)
@@ -41,6 +50,9 @@
                     <input type="file" name="productImg[{{$image->id}}]">
                 </div>
             @endforeach
+            @if ($errors->has('product-img'))
+                <div class="text-danger">{{$errors->first('product-img')}}</div>
+            @endif
 
             <div class="form-group">
                 <label for="productCategory">Select category</label>
@@ -55,6 +67,9 @@
                         @endif
                     @endforeach
                 </select>
+                @if ($errors->has('productCategory'))
+                    <div class="text-danger">{{$errors->first('productCategory')}}</div>
+                @endif
             </div>
 
             <div class="form-group">

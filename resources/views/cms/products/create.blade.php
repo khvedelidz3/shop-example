@@ -18,22 +18,29 @@
 
             <div class="form-group">
                 <label for="productName">Product name</label>
-                <input type="text" class="form-control" id="productName" name="productName">
+                <input type="text" class="form-control" id="productName" name="productName"
+                       value="{{old('productName')}}">
                 @if ($errors->has('productName'))
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('productName') }}</strong>
-                                    </span>
+                    <div class="text-danger">{{$errors->first('productName')}}</div>
                 @endif
             </div>
 
             <div class="form-group">
                 <label for="productDescription">Product description</label>
-                <input type="text" class="form-control" id="productDescription" name="productDescription">
+                <input type="text" class="form-control" id="productDescription" name="productDescription"
+                       value="{{old('productDescription')}}">
+                @if ($errors->has('productDescription'))
+                    <div class="text-danger">{{$errors->first('productDescription')}}</div>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="productPrice">Product price</label>
-                <input type="text" class="form-control" id="productPrice" name="productPrice">
+                <input type="text" class="form-control" id="productPrice" name="productPrice"
+                       value="{{old('productPrice')}}">
+                @if ($errors->has('productPrice'))
+                    <div class="text-danger">{{$errors->first('productPrice')}}</div>
+                @endif
             </div>
 
             <div class="form-group">
@@ -47,6 +54,9 @@
                 <input type="file" class="form-control" id="productImg" name="productImg[]">
 
                 <input type="file" class="form-control" id="productImg" name="productImg[]">
+                @if ($errors->has('productImg'))
+                    <div class="text-danger">{{$errors->first('productImg')}}</div>
+                @endif
             </div>
 
 
@@ -63,6 +73,9 @@
                         @endif
                     @endforeach
                 </select>
+                @if ($errors->has('productCategory'))
+                    <div class="text-danger">{{$errors->first('productCategory')}}</div>
+                @endif
             </div>
 
             <div class="form-group">

@@ -19,11 +19,17 @@
             <div class="form-group">
                 <label for="parentCategoryName">Category name</label>
                 <input type="text" class="form-control" id="parentCategoryName" name="categoryName">
+                @if ($errors->has('categoryName'))
+                    <div class="text-danger">{{$errors->first('categoryName')}}</div>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="slugName">Slug name</label>
                 <input type="text" class="form-control" id="slugName" name="slugName">
+                @if ($errors->has('slugName'))
+                    <div class="text-danger">{{$errors->first('slugName')}}</div>
+                @endif
             </div>
 
             <label>Select parent category</label>

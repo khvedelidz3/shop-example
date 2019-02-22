@@ -58,8 +58,14 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
+        $request->validate([
+            'name'                  => 'required',
+            'email'                 => 'required|unique:users,email,'.$id,
+            'password'              => 'confirmed',
+        ]);
+
         $user = User::query()->findOrFail($id);
 
         $user->update([
@@ -77,8 +83,15 @@ class UsersController extends Controller
     }
 
 
-    public function store()
+    public function store(Request $request)
     {
+        $request->validate([
+            'name'                  => 'required',
+            'email'                 => 'required|unique:users,email',
+            'password'              => 'required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'required'
+        ]);
+
         $user = User::query()->create([
             'name'     => \request('name'),
             'email'    => \request('email'),

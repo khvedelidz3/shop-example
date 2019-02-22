@@ -16,7 +16,7 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        if (! is_null(\request('search'))) {
+        if (!is_null(\request('search'))) {
             $terms = explode(' ', \request('search'));
             $columns = ['id', 'name'];
 
@@ -72,8 +72,17 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
+        $request->validate([
+            'productName'        => 'required',
+            'productPrice'       => 'required|integer',
+            'productDescription' => 'required',
+            'productCategory'    => 'required',
+            'productImg'         => 'required',
+            'productImg.*'       => 'required|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
         foreach (\request()->file('productImg') as $index => $file) {
             if (empty($file)) {
                 continue;
@@ -122,9 +131,11 @@ class ProductsController extends Controller
 
         $request->validate([
             'productName'        => 'required',
-            'productPrice'       => 'required',
+            'productPrice'       => 'required|integer',
             'productDescription' => 'required',
             'productCategory'    => 'required',
+            'productImg'         => 'required',
+            'productImg.*'       => 'required|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $product = Product::query()->create([
