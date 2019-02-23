@@ -48,6 +48,7 @@ class OrdersController extends Controller
 
     public function order($id)
     {
+//        dd('dAD');
         $statusId = OrderStatus::query()->where('default', '=', true)
             ->pluck('id')
             ->first();
