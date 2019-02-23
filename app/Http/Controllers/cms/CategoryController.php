@@ -24,7 +24,7 @@ class CategoryController extends Controller
     {
         $currentCategory = Category::with('parent')
             ->findOrFail($id);
-//        dd($currentCategory);
+
 
         $nodes = Category::get()->toTree();
 

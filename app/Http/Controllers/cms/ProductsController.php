@@ -41,34 +41,52 @@ class ProductsController extends Controller
 
     public function create()
     {
-        $categories = Category::query()
-            ->where('parent_id', '=', null)
-            ->get();
+        $nodes = Category::get()->toTree();
+
+        $cats = [];
+
+        $traverse = function ($categories, $prefix = '--') use (&$cats, &$traverse) {
+            foreach ($categories as $category) {
+                $cats[$category->id] = PHP_EOL . $prefix . ' ' . $category->name;
+
+                $traverse($category->children, $prefix . '--');
+            }
+        };
+
+        $traverse($nodes);
+
         $sizes = Size::all();
 
         return view('cms.products.create', [
-            'categories' => $categories,
+            'cats' => $cats,
             'sizes'      => $sizes
         ]);
     }
 
     public function show($id)
     {
-        $product = Product::with(['categories.parent', 'attributes'])->findOrFail($id);
-        $currentCategory = $product->categories;
+        $product = Product::with(['categories', 'attributes'])->findOrFail($id);
 
-        $categories = Category::query()
-            ->where('parent_id', '=', null)
-            ->with('children')
-            ->get();
+        $nodes = Category::get()->toTree();
+
+        $cats = [];
+
+        $traverse = function ($categories, $prefix = '--') use (&$cats, &$traverse) {
+            foreach ($categories as $category) {
+                $cats[$category->id] = PHP_EOL . $prefix . ' ' . $category->name;
+
+                $traverse($category->children, $prefix . '--');
+            }
+        };
+
+        $traverse($nodes);
 
         $sizes = Size::all();
 
         return view('cms.products.update', [
-            'categories'      => $categories,
+            'cats'      => $cats,
             'sizes'           => $sizes,
             'product'         => $product,
-            'currentCategory' => $currentCategory
         ]);
     }
 

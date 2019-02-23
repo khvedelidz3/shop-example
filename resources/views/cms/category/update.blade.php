@@ -20,7 +20,8 @@
             @method('PATCH')
             <div class="form-group">
                 <label for="categoryName">Category name</label>
-                <input type="text" class="form-control" id="categoryName" value="{{$currentCategory->name}}" name="categoryName">
+                <input type="text" class="form-control" id="categoryName" value="{{$currentCategory->name}}"
+                       name="categoryName">
                 @if ($errors->has('categoryName'))
                     <div class="text-danger">{{$errors->first('categoryName')}}</div>
                 @endif
@@ -32,7 +33,10 @@
                 <select name="parentCategory" id="parentCategory" class="form-control">
                     <option hidden selected></option>
                     @foreach($cats as $key => $cat)
-                        <option value="{{$key}}">
+                        @if($key == $currentCategory->id)
+                            @continue
+                        @endif
+                        <option value="{{$key}}" {{!is_null($currentCategory->parent) && $key == $currentCategory->parent ? 'selected' : ''}}>
                             {{$cat}}
                         </option>
                     @endforeach

@@ -64,13 +64,10 @@
                 <label for="productCategory">Select category</label>
                 <select name="productCategory" id="productCategory" class="form-control">
                     <option hidden></option>
-                    @foreach($categories as $category)
-                        <option value="{{$category->id}}">
-                            {{$category->name}}
+                    @foreach($cats as $key => $cat)
+                        <option value="{{$key}}">
+                            {{$cat}}
                         </option>
-                        @if(count($category->children))
-                            @include('cms/category/manageChild',['children' => $category->children])
-                        @endif
                     @endforeach
                 </select>
                 @if ($errors->has('productCategory'))
