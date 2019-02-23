@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Product;
+use Kalnoy\Nestedset\NodeTrait;
 
 /**
  * App\Category
@@ -17,6 +18,8 @@ use App\Product;
  */
 class Category extends Model
 {
+    use NodeTrait;
+
     protected $fillable = ['name', 'slug', 'parent_id'];
 
 	public function products() {
@@ -25,12 +28,12 @@ class Category extends Model
 
 	public function parent()
 	{
-		return $this->hasOne(Category::class, 'id', 'parent_id');
+		return $this->hasOne(Category::class, 'id', 'parent');
 	}
 
 	public function children()
 	{
-		return $this->hasMany(Category::class, 'parent_id', 'id');
+		return $this->hasMany(Category::class, 'parent', 'id');
 	}
 
 	public function getRouteKeyName()
@@ -44,5 +47,26 @@ class Category extends Model
         } else {
             return $this->name;
         }
+    }
+
+    public function getLftName()
+    {
+        return 'left';
+    }
+
+    public function getRgtName()
+    {
+        return 'right';
+    }
+
+    public function getParentIdName()
+    {
+        return 'parent';
+    }
+
+
+    public function setParentAttribute($value)
+    {
+        $this->setParentIdAttribute($value);
     }
 }

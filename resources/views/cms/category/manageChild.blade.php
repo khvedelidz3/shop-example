@@ -1,5 +1,28 @@
 @switch(Request::path())
 
+    @case('admin/categories')
+    @foreach($children as $child)
+        <tr>
+            <th scope="row">{{$child->id}}</th>
+            <td>{{$child->name}}</td>
+            <td>{{$child->slug}}</td>
+            <td>{{is_object($child)}}</td>
+            <td>
+                <a type="button" class="btn btn-warning d-inline"
+                   href="/admin/categories/show/{{$child->id}}" role="button">Update</a>
+                <form method="POST" action="/admin/categories/{{$child->id}}/delete" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </td>
+        </tr>
+        @if(count($child->children))
+            @include('cms/category/manageChild',['children' => $child->children])
+        @endif
+    @endforeach
+    @break
+
     @case('admin/categories/create')
     @foreach($children as $child)
         <option value="{{$child->id}}" class="bg-danger">

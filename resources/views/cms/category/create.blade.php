@@ -34,14 +34,11 @@
 
             <label>Select parent category</label>
             <select name="parentCategory" id="parentCategory" class="form-control form-group select">
-                <option hidden></option>
-                @foreach($categories as $category)
-                    <option value="{{$category->id}}">
-                        {{$category->name}}
+                <option hidden selected></option>
+                @foreach($cats as $key => $cat)
+                    <option value="{{$key}}">
+                        {{$cat}}
                     </option>
-                    @if(count($category->children))
-                        @include('cms/category/manageChild',['children' => $category->children])
-                    @endif
                 @endforeach
             </select>
 

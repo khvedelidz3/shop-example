@@ -30,14 +30,11 @@
                 <label for="parentCategory">Parent category name</label>
 
                 <select name="parentCategory" id="parentCategory" class="form-control">
-                    <option hidden></option>
-                    @foreach($categories as $category)
-                        <option value="{{$category->id}}" {{$category->id == $currentCategory->parent_id ? 'selected':''}}>
-                            {{$category->name}}
+                    <option hidden selected></option>
+                    @foreach($cats as $key => $cat)
+                        <option value="{{$key}}">
+                            {{$cat}}
                         </option>
-                        @if(count($category->children))
-                            @include('cms/category/manageChild',['children' => $category->children])
-                        @endif
                     @endforeach
                 </select>
             </div>

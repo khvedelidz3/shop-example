@@ -13,7 +13,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::get()->toTree();
+//        dd($result = Category::with('ancestors')->get());
 
         return view('cms.category.index', compact('categories'));
     }
@@ -23,29 +24,53 @@ class CategoryController extends Controller
     {
         $currentCategory = Category::with('parent')
             ->findOrFail($id);
+//        dd($currentCategory);
 
-        $categories = Category::query()
-            ->where('parent_id', '=', null)
-            ->where('id', '!=', $id)
-            ->get();
+        $nodes = Category::get()->toTree();
+
+        $cats = [];
+
+        $traverse = function ($categories, $prefix = '--') use (&$cats, &$traverse) {
+            foreach ($categories as $category) {
+                $cats[$category->id] = PHP_EOL . $prefix . ' ' . $category->name;
+
+                $traverse($category->children, $prefix . '--');
+            }
+        };
+
+        $traverse($nodes);
 
         return view('cms.category.update', [
             'currentCategory' => $currentCategory,
-            'categories'      => $categories
+            'cats'      => $cats
         ]);
     }
 
     public function create()
     {
-        $categories = Category::query()->where('parent_id', '=', null)->get();
+        $nodes = Category::get()->toTree();
+        $cats = [];
 
-        return view('cms.category.create', compact('categories'));
+        $traverse = function ($categories, $prefix = '--') use (&$cats, &$traverse) {
+            foreach ($categories as $category) {
+                $cats[$category->id] = PHP_EOL . $prefix . ' ' . $category->name;
+
+                $traverse($category->children, $prefix . '--');
+            }
+        };
+
+        $traverse($nodes);
+
+
+        return view('cms.category.create', [
+            'cats' => $cats
+        ]);
     }
 
     public function update($id, Request $request)
     {
         $request->validate([
-            'categoryName' => 'required|unique:categories,name,' . $id,
+            'categoryName' => 'required',
             'slugName'     => 'required|unique:categories,slug,' . $id,
         ]);
 
@@ -63,7 +88,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'categoryName' => 'required|unique:categories,name',
+            'categoryName' => 'required',
             'slugName'     => 'required|unique:categories,slug',
         ]);
 
