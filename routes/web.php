@@ -14,18 +14,6 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/', 'ProductsController@index');
-Route::post('/products/store', 'ProductsController@store');
-Route::get('/products/create', "ProductsController@create");
-Route::get('/products/{product}', 'ProductsController@show');
-
-Route::post('/products/{id}', 'OrdersController@order')->middleware('auth');
-
-Route::get('/{category}', 'CategoryController@index');
-
-
 Route::prefix('admin')->group(function () {
 
     Route::get('/', [
@@ -80,7 +68,7 @@ Route::prefix('admin')->group(function () {
         'uses' => 'cms\ProductsController@update',
         'middleware' => ['role:admin']
     ]);
-    Route::delete('product/delete/{id}', [
+    Route::delete('/product/delete/{id}', [
         'uses' => 'cms\ProductsController@delete',
         'middleware' => ['role:admin']
     ]);
@@ -135,3 +123,16 @@ Route::prefix('admin')->group(function () {
 
 
 });
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/', 'ProductsController@index');
+Route::post('/products/store', 'ProductsController@store');
+Route::get('/products/create', "ProductsController@create");
+Route::get('/products/{product}', 'ProductsController@show');
+
+Route::post('/products/{id}', 'OrdersController@order')->middleware('auth');
+
+Route::get('/{category}', 'CategoryController@index');
+
+

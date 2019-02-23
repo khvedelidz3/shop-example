@@ -188,7 +188,7 @@ class ProductsController extends Controller
                 'quantity'   => $attribute['quantity']
             ])->save();
         }
-
+dd($productId);
         return redirect('/admin/products');
     }
 
