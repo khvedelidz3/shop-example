@@ -26,7 +26,7 @@ class Category extends Model
 	    return $this->hasOne(Product::class);
 	}
 
-	public function parent()
+	public function parentCategory()
 	{
 		return $this->hasOne(Category::class, 'id', 'parent');
 	}
