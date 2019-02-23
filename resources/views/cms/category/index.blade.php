@@ -19,7 +19,7 @@
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Slug</th>
-                <th scope="col">Path</th>
+                <th scope="col">Parent</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -29,7 +29,7 @@
                     <th scope="row">{{$category->id}}</th>
                     <td>{{$category->name}}</td>
                     <td>{{$category->slug}}</td>
-                    <td></td>
+                    <td>{{!is_null($category->parentCategory) ? $category->parentCategory->name." > ".$category->name : $category->name}}</td>
                     <td>
                         <a type="button" class="btn btn-warning d-inline"
                            href="/admin/categories/show/{{$category->id}}" role="button">Update</a>
@@ -40,9 +40,6 @@
                         </form>
                     </td>
                 </tr>
-                @if(count($category->children))
-                    @include('cms/category/manageChild',['children' => $category->children])
-                @endif
             @endforeach
 
             </tbody>

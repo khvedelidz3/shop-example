@@ -31,9 +31,9 @@ class ProductsController extends Controller
                     }
                 }
             }
-            $products = $query->with('categories')->paginate();
+            $products = $query->with('categories.parentCategory')->paginate();
         } else {
-            $products = Product::with('categories')->paginate();
+            $products = Product::with('categories.parentCategory')->paginate();
         }
 
         return view('cms.products.index', compact('products'));

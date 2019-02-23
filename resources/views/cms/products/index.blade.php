@@ -43,7 +43,7 @@
                     <td>{{$product->name}}</td>
                     <td>{{$product->description}}</td>
                     <td>{{$product->price}}</td>
-                    <td>{{ $product->categories->name}}</td>
+                    <td>{{!is_null($product->categories->parentCategory) ? $product->categories->parentCategory->name.' > '.$product->categories->name : $product->categories->name}}</td>
                     <td>
                         <a type="button" class="btn btn-warning d-inline" href="/admin/products/update/{{$product->id}}"
                            role="button">Update</a>

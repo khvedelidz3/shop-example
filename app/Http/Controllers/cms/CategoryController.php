@@ -13,10 +13,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::get()->toTree();
-//        dd($result = Category::with('ancestors')->get());
+//        $categories = Category::get()->toTree();
+        $categories = Category::with('parentCategory')->get();
+//        dd($categories);
 
-        return view('cms.category.index', compact('categories'));
+        return view('cms.category.index', [
+            'categories' => $categories
+        ]);
     }
 
 
